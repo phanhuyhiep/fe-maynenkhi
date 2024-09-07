@@ -1,0 +1,1 @@
+export const BASE_URL_BACKENT = import.meta.env.VITE_API_BACKEND
