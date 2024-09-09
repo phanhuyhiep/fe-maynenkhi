@@ -4,6 +4,7 @@ import {
   deleteCategoryAdmin,
   editCategoryAdmin,
   getAllCategoryAdmin,
+  getCategoryById,
 } from "../../../services/category-admin.service";
 import { message } from "antd";
 
@@ -17,6 +18,11 @@ export const useGetCategory = (data: any) => {
   );
 };
 
+export const useGetCategoryById = (data: any) => {
+  return useQuery([CACHE_KEYS.InforDataCategory, data], () =>
+    getCategoryById(data)
+  );
+};
 export const useDeleteCategory = () => {
   const queryClient = useQueryClient();
   return useMutation(
@@ -55,15 +61,18 @@ export const useAddCategory = () => {
 
 export const useEditCategory = () => {
   const queryClient = useQueryClient();
-  return useMutation((data:FormData) =>{
-    return editCategoryAdmin(data)
-  }, {
-    onSuccess:() =>{
-      queryClient.invalidateQueries(CACHE_KEYS.InforDataCategory);
-      message.success("Category edited successfully");
+  return useMutation(
+    (data: FormData) => {
+      return editCategoryAdmin(data);
     },
-    onError:() => {
-      message.error("Category exiteds");
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(CACHE_KEYS.InforDataCategory);
+        message.success("Category edited successfully");
+      },
+      onError: () => {
+        message.error("Category exiteds");
+      },
     }
-  })
-}
+  );
+};

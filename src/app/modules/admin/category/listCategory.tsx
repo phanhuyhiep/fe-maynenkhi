@@ -86,7 +86,7 @@ const ListCategory = () => {
         <Col span={24} xxl={24} xl={24}>
           <Row justify={"space-between"}>
             <Col>
-              <span className="titleMainDashboard">CATEGORY</span>{" "}
+              <span className="titleMainDashboard">CATEGORIES</span>{" "}
             </Col>
             <Col>
               <Row gutter={[10, 0]}>

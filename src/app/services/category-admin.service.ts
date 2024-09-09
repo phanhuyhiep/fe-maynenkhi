@@ -13,6 +13,12 @@ export const deleteCategoryAdmin = async(data:any) => {
     return result.data
 }
 
+export const getCategoryById = async(data:any) => {
+    const url = `/category/${data}`;
+    const result = await confisAxios.get(url);
+    return result.data
+}
+
 export const addCategoryAdmin = async(data:any) => {
     const url = `/category/add`;
     const result = await confisAxios.post(url, data);
