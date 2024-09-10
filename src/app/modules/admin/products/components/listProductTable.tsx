@@ -1,4 +1,4 @@
-import { Col, Pagination, Row, Spin } from "antd";
+import { Col, Image, Pagination, Row, Spin } from "antd";
 import Table, { ColumnsType } from "antd/es/table";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import "../product.css";
@@ -10,12 +10,12 @@ interface listProductProps {
   setPageLimitProduct: any;
   pageLimitProduct: any;
   totalPage: number;
-  setSelectProduct:any;
-  setIsModalDeleteProduct:any;
+  setSelectProduct: any;
+  setIsModalDeleteProduct: any;
   setIsActionAdd: any;
-  form:any;
-  setIsModalAddAndEditProduct:any;
-  setOldImages:any;
+  form: any;
+  setIsModalAddAndEditProduct: any;
+  setOldImages: any;
 }
 
 interface ReportProductHistory {
@@ -40,13 +40,13 @@ export const ListProductTable: React.FC<listProductProps> = ({
 }) => {
   const convertUrlsToFileList = (urls: string[]) => {
     return urls.map((url, index) => ({
-      uid: `old-${index}`,  // UID duy nhất, thêm prefix để dễ phân biệt
-      name: `image-${index}`,  // Tên của file
-      status: 'done',  // Trạng thái của file
-      url: url  // URL của file
+      uid: `old-${index}`, // UID duy nhất, thêm prefix để dễ phân biệt
+      name: `image-${index}`, // Tên của file
+      status: "done", // Trạng thái của file
+      url: url, // URL của file
     }));
   };
-  
+
   const columnProduct: ColumnsType<ReportProductHistory> = [
     {
       title: "Index",
@@ -67,10 +67,10 @@ export const ListProductTable: React.FC<listProductProps> = ({
       render: (images: string[]) => {
         if (Array.isArray(images) && images.length > 0) {
           return (
-            <img
+            <Image
+              width={120}
+              style={{ height: "100px", objectFit: "cover" }}
               src={images[0]}
-              alt="Product Image"
-              style={{ width: "70px", height: "70px", objectFit: "cover" }}
             />
           );
         }
@@ -95,7 +95,7 @@ export const ListProductTable: React.FC<listProductProps> = ({
     {
       title: "Category name",
       align: "center",
-      dataIndex: "categoryId",
+      dataIndex: "categoryName",
     },
     {
       title: "Action",
@@ -121,17 +121,17 @@ export const ListProductTable: React.FC<listProductProps> = ({
         function handleEdit(data: any) {
           setSelectProduct(data);
           setIsActionAdd(false);
-          setIsModalAddAndEditProduct(true); 
+          setIsModalAddAndEditProduct(true);
           setOldImages(convertUrlsToFileList(data?.images));
           form.setFieldsValue({
-            id:data?.id,
+            id: data?.id,
             name: data?.name,
             price: data?.price,
             quantity: data?.quantity,
-            categoryId: data?.categoryId,
+            categoryName: data?.categoryName,
             description: data?.description,
-            images:convertUrlsToFileList(data?.images)
-          })
+            images: convertUrlsToFileList(data?.images),
+          });
         }
       },
     },

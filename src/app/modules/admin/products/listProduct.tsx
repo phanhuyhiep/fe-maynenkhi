@@ -24,6 +24,7 @@ import ReactQuill from "react-quill";
 
 export const ListProduct = () => {
   const [form] = Form.useForm();
+  const { Option } = Select;
   const [pageReportProductHistory, setPageReportProductHistory] = useState(1);
   const [pageLimitProduct, setPageLimitProduct] = useState(5);
   const [selectProduct, setSelectProduct] = useState({} as any);
@@ -31,7 +32,8 @@ export const ListProduct = () => {
   const [isActionAdd, setIsActionAdd] = useState(true);
   const [description, setDescription] = useState("");
   const [oldImages, setOldImages] = useState({} as any);
-
+  const [selectCategory, setSelectCategory] = useState("");
+  const [inputProductNameSearch, setInputProductNameSearch] = useState("");
   const modules = {
     toolbar: [
       [{ font: [] }],
@@ -48,7 +50,12 @@ export const ListProduct = () => {
     useState(false);
   const [fileList, setFileList] = useState<any[]>([]);
   const { data: dataProduct, isLoading: isLoadingDataProduct } =
-    useGetAllProduct({ page: pageReportProductHistory, limit: 5 });
+    useGetAllProduct({
+      page: pageReportProductHistory,
+      limit: 5,
+      categoryName: selectCategory,
+      productName: inputProductNameSearch,
+    });
   const { mutate: mutateAddProduct, isLoading: isLoadingAddProduct } =
     useAddProduct();
   const { data: dataCategory } = useGetCategory({
@@ -85,7 +92,7 @@ export const ListProduct = () => {
         formData.append("price", values?.price || "");
         formData.append("quantity", values?.quantity || "");
         formData.append("description", values?.description || "");
-        formData.append("categoryId", values?.categoryId || "");
+        formData.append("categoryName", values?.categoryName || "");
         fileList.forEach((file) => {
           formData.append("images", (file as Blob) || "");
         });
@@ -148,7 +155,7 @@ export const ListProduct = () => {
         formData.append("price", values?.price || "");
         formData.append("quantity", values?.quantity || "");
         formData.append("description", values?.description || "");
-        formData.append("categoryId", values?.categoryId || "");
+        formData.append("categoryName", values?.categoryName || "");
         // Xử lý ảnh cũ
         const oldFilesPromises = oldImages.map(async (imageInfo: any) => {
           const file = await convertToFile(imageInfo);
@@ -173,6 +180,20 @@ export const ListProduct = () => {
         console.log("Validate Failed:", errorInfo);
       });
   };
+  const handleSelectChange = (value: any) => {
+    if (value === "all") {
+      setSelectCategory("");
+    } else {
+      setSelectCategory(value);
+    }
+  };
+  const handleSearch = (value: any) => {
+    if (value === "") {
+      setInputProductNameSearch("");
+    } else {
+      setInputProductNameSearch(value);
+    }
+  };
 
   return (
     <>
@@ -184,6 +205,28 @@ export const ListProduct = () => {
             </Col>
             <Col>
               <Row gutter={[10, 0]}>
+                <Col>
+                  <Input.Search
+                    placeholder="Search product name"
+                    enterButton
+                    onSearch={handleSearch}
+                    style={{ width: 300 }}
+                  />
+                </Col>
+                <Col>
+                  <Select
+                    style={{ width: 200 }}
+                    placeholder="Select a category"
+                    onChange={handleSelectChange}
+                  >
+                    <Option value="all">ALL CATEGORIES</Option>{" "}
+                    {dataCategory?.categories?.map((category: any) => (
+                      <Option key={category.id} value={category.name}>
+                        {category.name}
+                      </Option>
+                    ))}
+                  </Select>
+                </Col>
                 <Col>
                   <Button type="primary" onClick={showModalAddCategory}>
                     ADD PRODUCT
@@ -315,7 +358,7 @@ export const ListProduct = () => {
             </Col>
             <Col span={12}>
               <Form.Item
-                name="categoryId"
+                name="categoryName"
                 label="Category"
                 rules={[{ required: true, message: "Select category" }]}
               >

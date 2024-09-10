@@ -2,7 +2,7 @@ import { confisAxios } from "../api/config-http"
 
 
 export const getAllCategoryAdmin = async(data:any) => {
-    const url = `/category/?page=${data.page}&limit=${data.limit}`
+    const url = `/category/?page=${data.page}&limit=${data.limit}&categoryName=${data.categoryName}`
     const result = await confisAxios.get(url)
     return result.data
 }
