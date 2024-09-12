@@ -1,55 +1,72 @@
 import { Col, Pagination, Row, Spin } from "antd";
 import Table, { ColumnsType } from "antd/es/table";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import "../category.css";
 interface listCategoryProps {
   data: any;
   isLoading: any;
-  totalPage: number;
-  pageReportCategoryHistory: number;
-  setPageReportCategoryHistory: any;
-  setPageLimitCategory: any;
-  setCategorySelected: any;
-  setIsModalDeleteCategory: any;
-  pageLimitCategory: number;
-  setIsModalAddAndEditCategory: any;
-  setIsActionAdd: any;
+  setPageReportUserHistory: any;
+  setPageLimitUser: any;
+  pageReportUserHistory: any;
+  pageLimitUser: any;
+  totalPage: any;
+  setUserSelected: any;
+  setIsModalAddAndEditUser: any;
   form: any;
+  setIsModalDeleteUser:any;
+  setIsActionAdd:any;
 }
 
-interface ReportCategoryHistory {
+interface ReportUserHistory {
   key: React.Key;
   name: string;
+  email: string;
+  password: string;
+  role: string;
 }
 
-export const ListCategoryTable: React.FC<listCategoryProps> = ({
+export const ListUserTable: React.FC<listCategoryProps> = ({
   data,
   isLoading,
+  setPageReportUserHistory,
+  setPageLimitUser,
+  pageReportUserHistory,
+  pageLimitUser,
   totalPage,
-  pageReportCategoryHistory,
-  setPageReportCategoryHistory,
-  setPageLimitCategory,
-  setCategorySelected,
-  setIsModalDeleteCategory,
-  pageLimitCategory,
-  setIsModalAddAndEditCategory,
-  setIsActionAdd,
+  setUserSelected,
+  setIsModalAddAndEditUser,
   form,
+  setIsModalDeleteUser,
+  setIsActionAdd,
 }) => {
-  const columnCategory: ColumnsType<ReportCategoryHistory> = [
+  const columnCategory: ColumnsType<ReportUserHistory> = [
     {
       title: "Index",
       align: "center",
       render: (_value, _record, index) => {
         // Cách tính index: (trang hiện tại - 1) * số mục mỗi trang + chỉ số của mục hiện tại
-        return (pageReportCategoryHistory - 1) * pageLimitCategory + index + 1;
+        return (pageReportUserHistory - 1) * pageLimitUser + index + 1;
       },
     },
     {
-      title: "Category name",
+      title: "Name",
       align: "center",
       dataIndex: "name",
     },
+    {
+      title: "Email",
+      align: "center",
+      dataIndex: "email",
+    },
+    // {
+    //   title: "Password",
+    //   align: "center",
+    //   dataIndex: "password",
+    // },
+    // {
+    //   title: "Role",
+    //   align: "center",
+    //   dataIndex: "role",
+    // },
     {
       title: "Action",
       align: "center",
@@ -63,29 +80,30 @@ export const ListCategoryTable: React.FC<listCategoryProps> = ({
             />
             <DeleteOutlined
               className="delete-button"
-              onClick={() => handleDeteteSegment(data)}
+              onClick={() => handleDetete(data)}
             />
           </>
         );
-        function handleDeteteSegment(data: any) {
-          setCategorySelected(data);
-          setIsModalDeleteCategory(true);
+        function handleDetete(data: any) {
+          setIsModalDeleteUser(true);
+          setUserSelected(data);
         }
         function handleEdit(data: any) {
-          setCategorySelected(data);
+          setUserSelected(data);
+          setIsModalAddAndEditUser(true);
           setIsActionAdd(false);
-          setIsModalAddAndEditCategory(true);
           form.setFieldsValue({
             id: data?.id,
             name: data?.name,
+            email: data?.email,
           });
         }
       },
     },
   ];
   function changePage(page: number, pageSize: any) {
-    setPageReportCategoryHistory(page);
-    setPageLimitCategory(pageSize);
+    setPageReportUserHistory(page);
+    setPageLimitUser(pageSize);
   }
   return (
     <>
@@ -103,7 +121,7 @@ export const ListCategoryTable: React.FC<listCategoryProps> = ({
             />
             <Row justify={"end"} style={{ marginTop: "20px" }}>
               <Pagination
-                current={pageReportCategoryHistory}
+                current={pageReportUserHistory}
                 total={totalPage * 10}
                 showSizeChanger={true}
                 onChange={changePage}
