@@ -174,7 +174,7 @@ const ListCategory = () => {
         onOk={isActionAdd ? handleOkAddCategory : handleOkEditCategory}
       >
         <Form form={form} layout="vertical" autoComplete="off">
-          <Col span={11}>
+          <Col>
             <Form.Item
               name="name"
               label="Category name"

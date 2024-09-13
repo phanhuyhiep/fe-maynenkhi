@@ -1,7 +1,6 @@
 import {
     UserOutlined,
     FileOutlined,
-    HomeOutlined,
     ShoppingCartOutlined,
     OrderedListOutlined,
     CommentOutlined,
@@ -13,44 +12,44 @@ import {
   import { SiAdminer } from 'react-icons/si'
   export const MenuDashboard = [
     {
-      key: '/admin',
+      key: '/',
       icon: <SiAdminer />,
       label: 'Dashboard'
     },
     {
-      key: '/admin/category',
+      key: '/category',
       icon: <FileOutlined />,
       label: 'Category'
     },
     {
-      key: '/admin/product',
+      key: '/product',
       icon: <OrderedListOutlined />,
       label: 'Product'
     },
   
     {
-      key: '/admin/order',
+      key: '/order',
       icon: <ShoppingCartOutlined />,
       label: 'Order'
     },
     {
-      key: '/admin/user',
+      key: '/user',
       icon: <UserOutlined />,
       label: 'user'
     },
     {
-      key: '/admin/comment',
+      key: '/comment',
       icon: <CommentOutlined />,
       label: 'Comment'
     },
     {
-      key: '/admin/contact',
+      key: '/contact',
       icon: <CustomerServiceOutlined />,
       label: 'Contact'
     },
   
     {
-      key: '/admin/voucher',
+      key: '/voucher',
       icon: <MoneyCollectOutlined />,
       label: 'Voucher'
     },
@@ -60,14 +59,9 @@ import {
       label: 'Slice'
     },
     {
-      key: '/admin/statistic',
+      key: '/statistic',
       icon: <LineChartOutlined />,
       label: 'Statistical'
-    },
-    {
-      key: '/',
-      icon: <HomeOutlined />,
-      label: 'Home'
     }
   ]
   

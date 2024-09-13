@@ -116,12 +116,18 @@ export const ListProduct = () => {
       prevFileList?.filter((item: any) => item.uid !== file.uid)
     );
     setOldImages((prevOldImages: any) => {
-      const updatedImages = prevOldImages?.filter((image: any) => {
+      // Ensure prevOldImages is an array
+      const currentOldImages = Array.isArray(prevOldImages) ? prevOldImages: [];
+
+      const updatedImages = currentOldImages.filter((image: any) => {
         return image.uid !== file.uid;
       });
+
       return updatedImages;
     });
   };
+  console.log(oldImages);
+
   // Hàm tải hình ảnh từ URL và trả về đối tượng Blob
   const fetchImageAsBlob = async (url: string): Promise<Blob> => {
     const response = await fetch(url);
@@ -162,7 +168,6 @@ export const ListProduct = () => {
           return file;
         });
         const oldFiles = await Promise.all(oldFilesPromises);
-
         // Thêm ảnh cũ vào FormData
         oldFiles.forEach((file) => {
           formData.append("images", file);

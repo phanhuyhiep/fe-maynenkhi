@@ -1,9 +1,9 @@
 import { RouteObject } from "react-router-dom";
-import HomeClient from "./home/home-client";
+import { Login } from "./login/login";
 
 export const clientRouter: RouteObject[] = [
     {
-        path: "/",
-        element: <HomeClient/>
+        path: "",
+        element: <Login/>
     }
 ]

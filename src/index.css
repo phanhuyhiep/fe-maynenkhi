@@ -1,7 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-/* Ẩn thanh cuộn trên toàn bộ trang */
+
 body {
-    overflow: hidden;
-  }
+  overflow: hidden;
+}

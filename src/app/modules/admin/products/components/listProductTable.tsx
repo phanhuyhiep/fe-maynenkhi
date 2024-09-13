@@ -81,6 +81,9 @@ export const ListProductTable: React.FC<listProductProps> = ({
       title: "Price",
       align: "center",
       dataIndex: "price",
+      render: (value: number) => {
+        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
+      },
     },
     {
       title: "Quantity",
