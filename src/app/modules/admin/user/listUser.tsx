@@ -142,7 +142,7 @@ export const ListUser = () => {
       </Row>
       {/* Modal loading */}
       <Modal
-        open={isLoadingAddUser}
+        open={isLoadingAddUser || isLoadingDeleteUser || isLoadingEditUser}
         footer={false}
         closable={false}
         centered={true}
@@ -175,7 +175,7 @@ export const ListUser = () => {
         />
       </Modal>
       <Modal
-        visible={isModalAddAndEditUser || isLoadingEditUser || isLoadingDeleteUser}
+        visible={isModalAddAndEditUser}
         title={isActionAdd ? "Add user" : "Edit user"}
         onCancel={handleCancelModalAddAndEditCategory}
         onOk={isActionAdd ? handleOkAddUser : handleOkEditUser}
