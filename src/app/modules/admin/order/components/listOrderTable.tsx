@@ -1,4 +1,4 @@
-import { Col, Pagination, Row, Spin } from "antd";
+import { Col, Row, Spin } from "antd";
 import Table, { ColumnsType } from "antd/es/table";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 interface listOrderProps {
