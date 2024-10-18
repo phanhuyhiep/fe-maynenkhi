@@ -1,7 +1,7 @@
 import { confisAxios } from "../api/config-http";
 
 export const getAllProductAdmin = async (data: any) => {
-  const url = `/product/?page=${data.page}&limit=${data.limit}&categoryName=${data?.categoryName}&productName=${data.productName}`;
+  const url = `/product/?page=${data.page}&limit=${data.limit}&categoryName=${data?.categoryName}&searchTerm=${data.searchTerm}`;
   const result = await confisAxios.get(url);
   return result.data;
 };

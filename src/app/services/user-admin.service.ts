@@ -6,6 +6,12 @@ export const getAllUserAdmin = async (data: any) => {
   return result.data;
 };
 
+export const getUserById = async (data: { id: string }) => {
+  const url = `/auth/${data.id}`;
+  const result = await confisAxios.get(url);
+  return result.data;
+};
+
 export const addUserAdmin = async (data: any) => {
   const url = `/auth/register`;
   const result = await confisAxios.post(url, data);

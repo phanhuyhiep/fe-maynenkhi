@@ -4,6 +4,7 @@ import {
   deleteUserAdmin,
   editUSerAdmin,
   getAllUserAdmin,
+  getUserById,
 } from "../../../services/user-admin.service";
 import { message } from "antd";
 
@@ -15,6 +16,12 @@ export const useGetUser = (data: any) => {
   return useQuery([CACHE_KEYS.InforDataUser, data], () =>
     getAllUserAdmin(data)
   );
+};
+
+export const useGetUserById = (data: { id: string }) => {
+  return useQuery([CACHE_KEYS.InforDataUser, data.id], () => getUserById(data), {
+    enabled: !!data.id,
+  });
 };
 
 export const useAddUser = () => {

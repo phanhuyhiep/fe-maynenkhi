@@ -38,12 +38,12 @@ export const ListProduct = () => {
     toolbar: [
       [{ font: [] }],
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
-      [{ size: ["small", false, "large", "huge"] }], //tùy chọn kích thước văn bản
-      ["bold", "italic", "underline", "strike"], // Các nút in đậm, in nghiêng, gạch chân, gạch ngang
+      [{ size: ["small", false, "large", "huge"] }],
+      ["bold", "italic", "underline", "strike"],
       [{ list: "ordered" }, { list: "bullet" }],
       [{ align: [] }],
-      ["link", "image"], // Chèn liên kết và hình ảnh
-      ["clean"], // Nút xóa định dạng
+      ["link", "image"],
+      ["clean"],
     ],
   };
   const [isModalAddAndEditProduct, setIsModalAddAndEditProduct] =
@@ -54,7 +54,7 @@ export const ListProduct = () => {
       page: pageReportProductHistory,
       limit: 5,
       categoryName: selectCategory,
-      productName: inputProductNameSearch,
+      searchTerm: inputProductNameSearch,
     });
   const { mutate: mutateAddProduct, isLoading: isLoadingAddProduct } =
     useAddProduct();
@@ -116,30 +116,23 @@ export const ListProduct = () => {
       prevFileList?.filter((item: any) => item.uid !== file.uid)
     );
     setOldImages((prevOldImages: any) => {
-      // Ensure prevOldImages is an array
       const currentOldImages = Array.isArray(prevOldImages) ? prevOldImages: [];
-
       const updatedImages = currentOldImages.filter((image: any) => {
         return image.uid !== file.uid;
       });
-
       return updatedImages;
     });
   };
-  console.log(oldImages);
-
   // Hàm tải hình ảnh từ URL và trả về đối tượng Blob
   const fetchImageAsBlob = async (url: string): Promise<Blob> => {
     const response = await fetch(url);
     const blob = await response.blob();
     return blob;
   };
-
   // Hàm để chuyển đổi Blob thành File
   const blobToFile = (blob: Blob, name: string): File => {
     return new File([blob], name, { type: blob.type });
   };
-
   // Hàm để chuyển đổi thông tin ảnh thành File
   const convertToFile = async (imageInfo: {
     name: string;
@@ -162,13 +155,11 @@ export const ListProduct = () => {
         formData.append("quantity", values?.quantity || "");
         formData.append("description", values?.description || "");
         formData.append("categoryName", values?.categoryName || "");
-        // Xử lý ảnh cũ
         const oldFilesPromises = oldImages.map(async (imageInfo: any) => {
           const file = await convertToFile(imageInfo);
           return file;
         });
         const oldFiles = await Promise.all(oldFilesPromises);
-        // Thêm ảnh cũ vào FormData
         oldFiles.forEach((file) => {
           formData.append("images", file);
         });
@@ -212,10 +203,10 @@ export const ListProduct = () => {
               <Row gutter={[10, 0]}>
                 <Col>
                   <Input.Search
-                    placeholder="Search product name"
+                    placeholder="Search product name or product code"
                     enterButton
                     onSearch={handleSearch}
-                    style={{ width: 300 }}
+                    style={{ width: 350 }}
                   />
                 </Col>
                 <Col>

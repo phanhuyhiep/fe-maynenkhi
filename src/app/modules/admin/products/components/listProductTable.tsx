@@ -29,7 +29,6 @@ export const ListProductTable: React.FC<listProductProps> = ({
   setPageReportProductHistory,
   pageReportProductHistory,
   setPageLimitProduct,
-  pageLimitProduct,
   totalPage,
   setSelectProduct,
   setIsModalDeleteProduct,
@@ -40,20 +39,19 @@ export const ListProductTable: React.FC<listProductProps> = ({
 }) => {
   const convertUrlsToFileList = (urls: string[]) => {
     return urls.map((url, index) => ({
-      uid: `old-${index}`, // UID duy nhất, thêm prefix để dễ phân biệt
-      name: `image-${index}`, // Tên của file
-      status: "done", // Trạng thái của file
-      url: url, // URL của file
+      uid: `old-${index}`, 
+      name: `image-${index}`,
+      status: "done",
+      url: url,
     }));
   };
+console.log(data);
 
   const columnProduct: ColumnsType<ReportProductHistory> = [
     {
-      title: "Index",
+      title: "Product code",
       align: "center",
-      render: (_value, _record, index) => {
-        return (pageReportProductHistory - 1) * pageLimitProduct + index + 1;
-      },
+      dataIndex: "productCode",
     },
     {
       title: "Product name",
@@ -90,11 +88,6 @@ export const ListProductTable: React.FC<listProductProps> = ({
       align: "center",
       dataIndex: "quantity",
     },
-    // {
-    //   title: "Description",
-    //   align: "center",
-    //   dataIndex: "description",
-    // },
     {
       title: "Category name",
       align: "center",

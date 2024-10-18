@@ -1,11 +1,23 @@
-import { Col, Pagination, Row, Spin } from "antd";
+import { Button, Col, Descriptions, DescriptionsProps, Modal, Pagination, Row, Spin, Typography } from "antd";
 import Table, { ColumnsType } from "antd/es/table";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons";
+import dayjs from "dayjs";
+import { useState } from "react";
+import { useGetOrderById } from "../order.loader";
 interface listOrderProps {
   data: any;
   isLoading: any;
+  setPageReportOrderHistory: any;
+  pageReportOderHistory: any;
+  setPageLimitOrder: any;
+  pageLimitOrder: any;
+  totalPage: any;
+  setSelectOrder:any;
+  setIsModalAddAndEditOrder:any;
+  setIsActionAdd:any;
+  form:any;
+  setIsModalDeleteOrder:any;
 }
-
 interface ReportOrderHistory {
   key: React.Key;
   fullName: string;
@@ -21,21 +33,29 @@ interface ReportOrderHistory {
   payment_methods: string;
   editBy: string;
   orderStatus: string;
-  timestamp: string
+  timestamp: string;
 }
 
 export const ListOrderTable: React.FC<listOrderProps> = ({
   data,
   isLoading,
+  setPageReportOrderHistory,
+  pageReportOderHistory,
+  setPageLimitOrder,
+  totalPage,
+  setSelectOrder,
+  setIsModalAddAndEditOrder,
+  setIsActionAdd,
+  form,
+  setIsModalDeleteOrder,
 }) => {
+  const [isOrderSelected, setIsOrderSelected] = useState("");
+  const {data: dataOrder} = useGetOrderById({ order_id: isOrderSelected});
   const columnOrder: ColumnsType<ReportOrderHistory> = [
     {
-      title: "Index",
+      title: "Order code",
       align: "center",
-      // render: (_value, _record, index) => {
-      //   // Cách tính index: (trang hiện tại - 1) * số mục mỗi trang + chỉ số của mục hiện tại
-      //   return (pageReportUserHistory - 1) * pageLimitUser + index + 1;
-      // },
+      dataIndex: "orderCode",
     },
     {
       title: "Full name",
@@ -47,26 +67,6 @@ export const ListOrderTable: React.FC<listOrderProps> = ({
       align: "center",
       dataIndex: "phoneNumber",
     },
-    // {
-    //   title: "City",
-    //   align: "center",
-    //   dataIndex: "city",
-    // },
-    // {
-    //   title: "District",
-    //   align: "center",
-    //   dataIndex: "district",
-    // },
-    // {
-    //   title: "Commune",
-    //   align: "center",
-    //   dataIndex: "commune",
-    // },
-    // {
-    //   title: "Detail address",
-    //   align: "center",
-    //   dataIndex: "detailAddress",
-    // },
     {
       title: "Product name",
       align: "center",
@@ -76,6 +76,12 @@ export const ListOrderTable: React.FC<listOrderProps> = ({
       title: "Product price",
       align: "center",
       dataIndex: "productPrice",
+      render: (value: number) => {
+        return new Intl.NumberFormat("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }).format(value);
+      },
     },
     {
       title: "Product quantity",
@@ -86,26 +92,18 @@ export const ListOrderTable: React.FC<listOrderProps> = ({
       title: "Total",
       align: "center",
       dataIndex: "total",
+      render: (value: number) => {
+        return new Intl.NumberFormat("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }).format(value);
+      },
     },
-    // {
-    //   title: "Payment methods",
-    //   align: "center",
-    //   dataIndex: "payment_methods",
-    // },
-    // {
-    //   title: "Edit by",
-    //   align: "center",
-    //   dataIndex: "editBy",
-    // },
-    // {
-    //   title: "Order status",
-    //   align: "center",
-    //   dataIndex: "orderStatus",
-    // },
     {
       title: "Timestamp",
       align: "center",
       dataIndex: "timestamp",
+      render: (text) => dayjs(text).add(7, 'hour').format("HH:mm:ss - DD/MM/YYYY"),
     },
     {
       title: "Action",
@@ -114,6 +112,13 @@ export const ListOrderTable: React.FC<listOrderProps> = ({
       render: (_, data: any) => {
         return (
           <>
+            <Button
+              type="link"
+              icon={<EyeOutlined />}
+              onClick={() => handleViewDetails(data)}
+            >
+              See details
+            </Button>
             <EditOutlined
               className="edit-button"
               onClick={() => handleEdit(data)}
@@ -125,18 +130,139 @@ export const ListOrderTable: React.FC<listOrderProps> = ({
           </>
         );
         function handleDetete(data: any) {
-          console.log(data);
-
+          setSelectOrder(data);
+          setIsModalDeleteOrder(true);
         }
         function handleEdit(data: any) {
-          console.log(data);
-
+          setIsModalAddAndEditOrder(true);
+          setSelectOrder(data);
+          setIsActionAdd(false);
+          form.setFieldsValue({
+            id: data?.id,
+            fullName: data?.fullName,
+            phoneNumber: data?.phoneNumber,
+            city: data?.city,
+            district: data?.district,
+            commune: data?.commune,
+            detailAddress: data?.detailAddress,
+            productName: data?.productName,
+            productPrice: data?.productPrice,
+            productQuantity: data?.productQuantity,
+            paymentMethods: data?.paymentMethods,
+            orderStatus: data?.orderStatus,
+          });
+        }
+        function handleViewDetails(data: any) {
+          setIsModalSeeDetail(true);
+          setIsOrderSelected(data?.id)
         }
       },
     },
   ];
-  // function changePage(page: number, pageSize: any) {
-  // }
+  function changePage(page: number, pageSize: any) {
+    setPageLimitOrder(pageSize);
+    setPageReportOrderHistory(page);
+  }
+  const { Title } = Typography
+
+  const handleCancelModalSeeDetail = () => {
+    setIsModalSeeDetail(false);
+  };
+  const handleOkModalSeeDetail = () => {
+    setIsModalSeeDetail(false);
+  };
+  const [isModalSeeDetail, setIsModalSeeDetail] = useState(false);
+  const items: DescriptionsProps['items'] = [
+    {
+      key: '1',
+      label: 'UserName',
+      children: dataOrder?.fullName,
+    },
+    {
+      key: '2',
+      label: 'Telephone',
+      children: dataOrder?.phoneNumber,
+    },
+    {
+      key: '3',
+      label: 'City',
+      children: dataOrder?.city,
+    },
+    {
+      key: '4',
+      label: 'District',
+      children: dataOrder?.district,
+    },
+    {
+      key: '5',
+      label: 'commune',
+      children: dataOrder?.commune,
+    },
+    {
+      key: '6',
+      label: 'Detail address',
+      children: dataOrder?.detailAddress,
+    },
+  ];
+
+  const columListProduct = [
+    {
+      title: 'Order code',
+      key: '1',
+      align: 'center' as 'center',
+      render: (_: any, record: any) => <div>{record?.orderCode}</div>
+    },
+    {
+      title: 'Product name',
+      key: '2',
+      align: 'center' as 'center',
+      render: (_: any, record: any) => <div>{record?.productName}</div>
+    },
+    {
+      title: 'Product price',
+      key: '3',
+      align: 'center' as 'center',
+      render: (_: any, record: any) => (
+        <strong className='block text-center'>
+          {record?.productPrice?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
+        </strong>
+      )
+    },
+    {
+      title: 'Quantity',
+      key: '4',
+      align: 'center' as 'center',
+      render: (_: any, record: any) => <div>{record?.productQuantity}</div>
+    },
+    {
+      title: 'Total',
+      key: '5',
+      align: 'center' as 'center',
+      render: (_: any, record: any) => (
+        <strong className='block text-center'>
+          {record?.total?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
+        </strong>
+      )
+    },
+    {
+      title: 'Created by',
+      key: '6',
+      align: 'center' as 'center',
+      render: (_: any, record: any) => <div>{record?.editBy}</div>
+    },
+    {
+      title: 'Payment methods',
+      key: '7',
+      align: 'center' as 'center',
+      render: (_: any, record: any) => <div>{record?.paymentMethods}</div>
+    },
+    {
+      title: 'Order status',
+      key: '8',
+      align: 'center' as 'center',
+      render: (_: any, record: any) => <div>{record?.orderStatus}</div>
+    },
+  ];
   return (
     <>
       <Col span={24}>
@@ -151,17 +277,36 @@ export const ListOrderTable: React.FC<listOrderProps> = ({
               dataSource={data ?? []}
               pagination={false}
             />
-            {/* <Row justify={"end"} style={{ marginTop: "20px" }}>
+            <Row justify={"end"} style={{ marginTop: "20px" }}>
               <Pagination
-                current={pageReportUserHistory}
+                current={pageReportOderHistory}
                 total={totalPage * 10}
                 showSizeChanger={true}
                 onChange={changePage}
               />
-            </Row> */}
+            </Row>
           </>
         )}
       </Col>
+
+      {/* Modal chi tiết sản phẩm */}
+      <Modal
+        open={isModalSeeDetail}
+        onCancel={handleCancelModalSeeDetail}
+        onOk={handleOkModalSeeDetail}
+        width={1200}
+      >
+        <Title level={4}>Customer information</Title>
+        <Descriptions items={items} />
+        <Title level={4}>Product</Title>
+        <div>
+          <Table
+            columns={columListProduct}
+            dataSource={[dataOrder]}
+            pagination={false}
+          />
+        </div>
+      </Modal>
     </>
   );
 };
