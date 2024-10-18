@@ -1,0 +1,59 @@
+{
+  "header": {
+    "Logout": "Đăng xuất"
+  },
+  "menu": {
+    "Dashboard": "Bảng điều khiển",
+    "Category": "Danh mục",
+    "Product": "Sản phẩm",
+    "Order": "Đơn hàng",
+    "User": "Người dùng",
+    "Comment": "Bình luận",
+    "Contact": "Liên hệ",
+    "Voucher": "Mã giảm giá",
+    "Slice": "Slice",
+    "Statistical": "Thống kê"
+  },
+  "category": {
+    "CATEGORIES": "DANH MỤC",
+    "ADD CATEGORY": "THÊM DANH MỤC",
+    "Index": "STT",
+    "Category name": "Tên danh mục",
+    "Action": "Chức năng",
+    "Add category": "Thêm danh mục",
+    "Edit category": "Sửa danh mục",
+    "Please enter category name": "Vui lòng nhập tên danh mục",
+    "Enter category name": "Nhập tên danh mục"
+  },
+  "product": {
+    "Images upload successfully": "Tải hình ảnh thành công",
+    "PRODUCTS": "SẢN PHẨM",
+    "ADD PRODUCT": "THÊM SẢN PHẨM",
+    "Search product name or product code": "Tìm kiếm tên sản phẩm hoặc mã sản phẩm",
+    "Select a category": "Chọn một danh mục",
+    "Product code": "Mã sản phẩm",
+    "Product name": "Tên sản phẩm",
+    "Image": "Ảnh",
+    "Price": "Giá",
+    "Quantity": "Số lượng",
+    "Category name": "Tên danh mục",
+    "Action": "Chức năng",
+    "Product detail": "Chi tiết sản phẩm",
+    "Product image": "Hình ảnh sản phẩm",
+    "Product price": "Giá sản phẩm",
+    "Description": "Mô tả",
+    "See details": "Xem chi tiết",
+    "Edit product": "Sửa sản phẩm",
+    "Name": "Họ và tên",
+    "Category": "Danh mục",
+    "Add product": "Thêm sản phẩm",
+    "Input Name": "Nhập tên",
+    "Input price": "Nhập giá",
+    "Input quantity": "Nhập số lượng",
+    "Select category": "Chọn danh mục",
+    "Please input your images!": "Vui lòng thêm hình ảnh của bạn!",
+    "Input description": "Nhập mô tả",
+    "Are you sure you want to delete the category": "Bạn có chắc chắn muốn xóa danh mục",
+    "DeleteProduct": "Xoá sản phẩm"
+  }
+}

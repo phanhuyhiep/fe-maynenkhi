@@ -2,6 +2,7 @@ import { Col, Pagination, Row, Spin } from "antd";
 import Table, { ColumnsType } from "antd/es/table";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import "../category.css";
+import { useTranslation } from "react-i18next";
 interface listCategoryProps {
   data: any;
   isLoading: any;
@@ -36,9 +37,10 @@ export const ListCategoryTable: React.FC<listCategoryProps> = ({
   setIsActionAdd,
   form,
 }) => {
+  const { t: tCategory } = useTranslation("translation", { keyPrefix: "category" });
   const columnCategory: ColumnsType<ReportCategoryHistory> = [
     {
-      title: "Index",
+      title: tCategory("Index"),
       align: "center",
       render: (_value, _record, index) => {
         // Cách tính index: (trang hiện tại - 1) * số mục mỗi trang + chỉ số của mục hiện tại
@@ -46,12 +48,12 @@ export const ListCategoryTable: React.FC<listCategoryProps> = ({
       },
     },
     {
-      title: "Category name",
+      title: tCategory("Category name"),
       align: "center",
       dataIndex: "name",
     },
     {
-      title: "Action",
+      title: tCategory("Action"),
       align: "center",
       dataIndex: "action",
       render: (_, data: any) => {

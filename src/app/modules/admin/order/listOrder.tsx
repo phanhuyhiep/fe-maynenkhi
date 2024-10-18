@@ -21,7 +21,7 @@ import {
 import useUserName from "../../../api/useUserName";
 
 export const ListOrder = () => {
-  const userName = useUserName();
+  const dataUser = useUserName();
   const [form] = Form.useForm();
   const [orderStatus, setOrderStatus] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -68,7 +68,7 @@ export const ListOrder = () => {
         formData.append("productPrice", values?.productPrice || "");
         formData.append("productQuantity", values?.productQuantity || "");
         formData.append("paymentMethods", values?.paymentMethods || "");
-        formData.append("editBy", userName || "");
+        formData.append("editBy", dataUser?.name || "");
         formData.append("orderStatus", values?.orderStatus || "");
         mutateCreateOrder(formData);
         setIsModalAddAndEditOrder(false);
@@ -95,7 +95,7 @@ export const ListOrder = () => {
         formData.append("productPrice", values?.productPrice || "");
         formData.append("productQuantity", values?.productQuantity || "");
         formData.append("paymentMethods", values?.paymentMethods || "");
-        formData.append("editBy", userName || "");
+        formData.append("editBy", dataUser?.name || "");
         formData.append("orderStatus", values?.orderStatus || "");
         mutateEditOrder(formData);
         setIsModalAddAndEditOrder(false);

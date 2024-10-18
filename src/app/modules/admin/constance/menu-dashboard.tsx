@@ -1,67 +1,70 @@
 import {
-    UserOutlined,
-    FileOutlined,
-    ShoppingCartOutlined,
-    OrderedListOutlined,
-    CommentOutlined,
-    LineChartOutlined,
-    MoneyCollectOutlined,
-    FileAddOutlined,
-    CustomerServiceOutlined
-  } from '@ant-design/icons'
-  import { SiAdminer } from 'react-icons/si'
-  export const MenuDashboard = [
+  UserOutlined,
+  FileOutlined,
+  ShoppingCartOutlined,
+  OrderedListOutlined,
+  CommentOutlined,
+  LineChartOutlined,
+  MoneyCollectOutlined,
+  FileAddOutlined,
+  CustomerServiceOutlined
+} from '@ant-design/icons';
+import { useTranslation } from 'react-i18next';
+import { SiAdminer } from 'react-icons/si';
+
+export const MenuDashboard = () => {
+  const { t: tMenu } = useTranslation("translation", { keyPrefix: "menu" });
+
+  return [
     {
       key: '/',
       icon: <SiAdminer />,
-      label: 'Dashboard'
+      label: tMenu("Dashboard")
     },
     {
       key: '/category',
       icon: <FileOutlined />,
-      label: 'Category'
+      label: tMenu("Category")
     },
     {
       key: '/product',
       icon: <OrderedListOutlined />,
-      label: 'Product'
+      label: tMenu("Product")
     },
-  
     {
       key: '/order',
       icon: <ShoppingCartOutlined />,
-      label: 'Order'
+      label: tMenu("Order")
     },
     {
       key: '/user',
       icon: <UserOutlined />,
-      label: 'user'
+      label: tMenu("User")
     },
     {
       key: '/comment',
       icon: <CommentOutlined />,
-      label: 'Comment'
+      label: tMenu("Comment")
     },
     {
       key: '/contact',
       icon: <CustomerServiceOutlined />,
-      label: 'Contact'
+      label: tMenu("Contact")
     },
-  
     {
       key: '/voucher',
       icon: <MoneyCollectOutlined />,
-      label: 'Voucher'
+      label: tMenu("Voucher")
     },
     {
-      key: '/admin/slice',
+      key: '/slice',
       icon: <FileAddOutlined />,
-      label: 'Slice'
+      label: tMenu("Slice")
     },
     {
       key: '/statistic',
       icon: <LineChartOutlined />,
-      label: 'Statistical'
+      label: tMenu("Statistical")
     }
-  ]
-  
+  ];
+};

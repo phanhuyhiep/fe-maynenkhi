@@ -1,30 +1,60 @@
-import { Button, Layout, Menu, theme } from "antd";
-import { Outlet, useNavigate } from "react-router-dom";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import {
+  Avatar,
+  Button,
+  Col,
+  Layout,
+  Menu,
+  Popover,
+  Row,
+  Select,
+  theme,
+} from "antd";
+import {Outlet, useNavigate } from "react-router-dom";
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import { useState } from "react";
 import { MenuDashboard } from "../../modules/admin/constance/menu-dashboard";
+import useUserName from "../../api/useUserName";
+import { useTranslation } from "react-i18next";
+
 const { Header, Sider, Content } = Layout;
+
 const DefaultAdmin = () => {
+  const { i18n } = useTranslation();
+  const { t: tHeader } = useTranslation("translation", { keyPrefix: "header" });
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-
+  const dataUser = useUserName();
   const navigate = useNavigate();
+
   const handClickMenuDashboard = (data: any) => {
     navigate(data.key);
   };
+
+  const changeLanguage = (lng: any) => {
+    i18n.changeLanguage(lng);
+  };
+
+  function handleLogout(key: any) {
+    localStorage.removeItem("jwtToken");
+    localStorage.setItem("isLoginToken", "false");
+    navigate(key);
+    window.location.reload();
+  }
+
   return (
     <Layout style={{ height: "100vh" }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        {/* <div className='mr-5'>
-          <img src="https://res.cloudinary.com/dpfndtcya/image/upload/t_logo-kobo-web-admin/v1696241284/rakuten-kobo1-removebg-preview_efmks8.png" alt="" />
-        </div> */}
         <Menu
           theme="dark"
           mode="inline"
           defaultSelectedKeys={["/admin"]}
-          items={MenuDashboard}
+          items={MenuDashboard()}
           onSelect={handClickMenuDashboard}
         />
       </Sider>
@@ -47,6 +77,50 @@ const DefaultAdmin = () => {
               height: 64,
             }}
           />
+          <Row
+            align="middle"
+            style={{ flex: 1, justifyContent: "flex-end", marginRight: "50px" }}
+          >
+            <Col xl={4} xxl={2}>
+              <Select
+                onChange={changeLanguage}
+                value={i18n.language}
+                options={[
+                  { value: "en", label: "English" },
+                  { value: "vi", label: "Tiếng Việt" },
+                ]}
+                style={{ width: 100 }}
+                size="small"
+              />
+            </Col>
+            <Col>
+              <Popover
+                content={
+                  <div>
+                    <div
+                      className="pointer"
+                      onClick={() => handleLogout("/login")}
+                    >
+                      {tHeader("Logout")}
+                    </div>
+                  </div>
+                }
+                title={
+                  <div>
+                    <Avatar
+                      size="small"
+                      icon={<UserOutlined />}
+                      style={{ marginRight: 10 }}
+                    />
+                    {dataUser?.email}
+                  </div>
+                }
+              >
+                <Avatar size={35} icon={<UserOutlined />} className="pointer" />
+              </Popover>
+            </Col>
+            <Col style={{ marginLeft: "10px" }}>{dataUser?.name}</Col>
+          </Row>
         </Header>
         <Content
           style={{

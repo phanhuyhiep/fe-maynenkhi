@@ -1,0 +1,59 @@
+{
+  "header": {
+    "Logout": "Logout"
+  },
+  "menu": {
+    "Dashboard": "Dashboard",
+    "Category": "Category",
+    "Product": "Product",
+    "Order": "Order",
+    "User": "User",
+    "Comment": "Comment",
+    "Contact": "Contact",
+    "Voucher": "Voucher",
+    "Slice": "Slice",
+    "Statistical": "Statistical"
+  },
+  "category": {
+    "CATEGORIES": "CATEGORIES",
+    "ADD CATEGORY": "ADD CATEGORY",
+    "Index": "Index",
+    "Category name": "Category name",
+    "Action": "Action",
+    "Add category": "Add category",
+    "Edit category": "Edit category",
+    "Please enter category name": "Please enter category name",
+    "Enter category name": "Enter category name"
+  },
+  "product": {
+    "Images upload successfully": "Images upload successfully",
+    "PRODUCTS": "PRODUCTS",
+    "ADD PRODUCT": "ADD PRODUCT",
+    "Search product name or product code": "Search product name or product code",
+    "Select a category": "Select a category",
+    "Product code": "Product code",
+    "Product name": "Product name",
+    "Image": "Image",
+    "Price": "Price",
+    "Quantity": "Quantity",
+    "Category name": "Category name",
+    "Action": "Action",
+    "Product detail": "Product detail",
+    "Product image": "Product images",
+    "Product price": "Product price",
+    "Description": "Description",
+    "See details": "See details",
+    "Edit product": "Edit product",
+    "Name": "Name",
+    "Category": "Category",
+    "Add product": "Add product",
+    "Input Name": "Input name",
+    "Input price": "Input price",
+    "Input quantity": "Input quantity",
+    "Select category": "Select category",
+    "Please input your images!": "Please input your images!",
+    "Input description": "Input description",
+    "Are you sure you want to delete the category": "Are you sure you want to delete the category",
+    "DeleteProduct": "Delete product"
+  }
+}

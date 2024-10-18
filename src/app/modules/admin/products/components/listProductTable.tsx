@@ -5,6 +5,7 @@ import "../product.css";
 import { useState } from "react";
 import { useGetProductById } from "../product.loader";
 import ReactQuill from "react-quill";
+import { useTranslation } from "react-i18next";
 interface listProductProps {
   data: any;
   isLoading: any;
@@ -48,19 +49,20 @@ export const ListProductTable: React.FC<listProductProps> = ({
       url: url,
     }));
   };
+  const { t: tProduct } = useTranslation("translation", { keyPrefix: "product" });
   const columnProduct: ColumnsType<ReportProductHistory> = [
     {
-      title: "Product code",
+      title: tProduct("Product code"),
       align: "center",
       dataIndex: "productCode",
     },
     {
-      title: "Product name",
+      title: tProduct("Product name"),
       align: "center",
       dataIndex: "name",
     },
     {
-      title: "Image",
+      title: tProduct("Image"),
       align: "center",
       dataIndex: "images",
       render: (images: string[]) => {
@@ -73,11 +75,11 @@ export const ListProductTable: React.FC<listProductProps> = ({
             />
           );
         }
-        return "No Image";
+        return tProduct("No Image");
       },
     },
     {
-      title: "Price",
+      title: tProduct("Price"),
       align: "center",
       dataIndex: "price",
       render: (value: number) => {
@@ -88,17 +90,17 @@ export const ListProductTable: React.FC<listProductProps> = ({
       },
     },
     {
-      title: "Quantity",
+      title: tProduct("Quantity"),
       align: "center",
       dataIndex: "quantity",
     },
     {
-      title: "Category name",
+      title: tProduct("Category name"),
       align: "center",
       dataIndex: "categoryName",
     },
     {
-      title: "Action",
+      title: tProduct("Action"),
       align: "center",
       dataIndex: "action",
       render: (_, data: any) => {
@@ -109,7 +111,7 @@ export const ListProductTable: React.FC<listProductProps> = ({
               icon={<EyeOutlined />}
               onClick={() => handleViewDetails(data)}
             >
-              See details
+              {tProduct("See details")}
             </Button>
             <EditOutlined
               className="edit-button"
@@ -164,19 +166,19 @@ export const ListProductTable: React.FC<listProductProps> = ({
   const { Title } = Typography
   const columListProduct = [
     {
-      title: 'Product code',
+      title: tProduct('Product code'),
       key: '1',
       align: 'center' as 'center',
       render: (_: any, record: any) => <div>{record?.productCode}</div>
     },
     {
-      title: 'Product name',
+      title: tProduct('Product name'),
       key: '2',
       align: 'center' as 'center',
       render: (_: any, record: any) => <div>{record?.name}</div>
     },
     {
-      title: 'Product image',
+      title: tProduct('Product image'),
       key: '3',
       align: 'center' as 'center',
       render: (_: any, record: any) => (
@@ -191,7 +193,7 @@ export const ListProductTable: React.FC<listProductProps> = ({
       ),
     },
     {
-      title: 'Product price',
+      title: tProduct('Product price'),
       key: '4',
       align: 'center' as 'center',
       render: (_: any, record: any) => (
@@ -201,13 +203,13 @@ export const ListProductTable: React.FC<listProductProps> = ({
       )
     },
     {
-      title: 'Quantity',
+      title: tProduct('Quantity'),
       key: '5',
       align: 'center' as 'center',
       render: (_: any, record: any) => <div>{record?.quantity}</div>
     },
     {
-      title: 'Description',
+      title: tProduct('Description'),
       key: '6',
       align: 'center' as 'center',
       render: (_: any, record: any) => (
@@ -228,7 +230,7 @@ export const ListProductTable: React.FC<listProductProps> = ({
       ),
     },
     {
-      title: 'Category name',
+      title: tProduct('Category name'),
       key: '7',
       align: 'center' as 'center',
       render: (_: any, record: any) => <div>{record?.categoryName}</div>
@@ -265,7 +267,7 @@ export const ListProductTable: React.FC<listProductProps> = ({
         onOk={handleOkModalSeeDetail}
         width={1400}
       >
-        <Title level={4}>Product detail</Title>
+        <Title level={4}>{tProduct("Product detail")}</Title>
         <div>
           <Table
             columns={columListProduct}

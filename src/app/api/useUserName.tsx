@@ -19,7 +19,6 @@ const useUserName = () => {
         }
     }, []);
     const {data: dataUser} = useGetUserById({ id: idUser ?? '' });
-    const userName = dataUser?.name
-    return userName
+    return dataUser
 };
 export default useUserName; 

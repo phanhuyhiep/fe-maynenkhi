@@ -21,6 +21,7 @@ import { useState } from "react";
 import { useGetCategory } from "../category/category.loader";
 import "react-quill/dist/quill.snow.css";
 import ReactQuill from "react-quill";
+import { useTranslation } from "react-i18next";
 
 export const ListProduct = () => {
   const [form] = Form.useForm();
@@ -34,6 +35,8 @@ export const ListProduct = () => {
   const [oldImages, setOldImages] = useState({} as any);
   const [selectCategory, setSelectCategory] = useState("");
   const [inputProductNameSearch, setInputProductNameSearch] = useState("");
+  const { t: tProduct } = useTranslation("translation", { keyPrefix: "product" });
+
   const modules = {
     toolbar: [
       [{ font: [] }],
@@ -107,7 +110,7 @@ export const ListProduct = () => {
   };
   const uploadImage = (options: any) => {
     const { file, onSuccess } = options;
-    onSuccess("Images upload successfully");
+    onSuccess(tProduct("Images upload successfully"));
     const newFileList = [...fileList, file];
     setFileList(newFileList);
   };
@@ -197,13 +200,13 @@ export const ListProduct = () => {
         <Col span={24} xxl={24} xl={24}>
           <Row justify={"space-between"}>
             <Col>
-              <span className="titleMainDashboard">PRODUCTS</span>{" "}
+              <span className="titleMainDashboard">{tProduct("PRODUCTS")}</span>{" "}
             </Col>
             <Col>
               <Row gutter={[10, 0]}>
                 <Col>
                   <Input.Search
-                    placeholder="Search product name or product code"
+                    placeholder= {tProduct("Search product name or product code")}
                     enterButton
                     onSearch={handleSearch}
                     style={{ width: 350 }}
@@ -212,10 +215,10 @@ export const ListProduct = () => {
                 <Col>
                   <Select
                     style={{ width: 200 }}
-                    placeholder="Select a category"
+                    placeholder= {tProduct("Select a category")}
                     onChange={handleSelectChange}
                   >
-                    <Option value="all">ALL CATEGORIES</Option>{" "}
+                    <Option value="all">{tProduct("ALL CATEGORIES")}</Option>{" "}
                     {dataCategory?.categories?.map((category: any) => (
                       <Option key={category.id} value={category.name}>
                         {category.name}
@@ -225,7 +228,7 @@ export const ListProduct = () => {
                 </Col>
                 <Col>
                   <Button type="primary" onClick={showModalAddCategory}>
-                    ADD PRODUCT
+                    {tProduct("ADD PRODUCT")}
                   </Button>
                 </Col>
               </Row>
@@ -286,7 +289,7 @@ export const ListProduct = () => {
       </Modal>
       {/* Modal delete product */}
       <Modal
-        title="DeleteCustomer"
+        title={tProduct("DeleteProduct")}
         open={isModalDeleteProduct}
         onOk={handleDeleteProduct}
         onCancel={handleCancelDeleteProduct}
@@ -294,7 +297,7 @@ export const ListProduct = () => {
         <Alert
           message={
             <p>
-              Are you sure you want to delete the category "
+              {tProduct("Are you sure you want to delete the category")} "
               <b>{selectProduct?.name}"</b> ?
             </p>
           }
@@ -305,7 +308,7 @@ export const ListProduct = () => {
       {/* Modal add & edit product */}
       <Modal
         visible={isModalAddAndEditProduct}
-        title={isActionAdd ? "Add product" : "Edit product"}
+        title={isActionAdd ? tProduct("Add product") : tProduct("Edit product")}
         onCancel={handleCancelModalAddAndEditProduct}
         onOk={isActionAdd ? handleOkAddProduct : handleOkEditProduct}
         width={1000}
@@ -320,24 +323,24 @@ export const ListProduct = () => {
             <Col span={12}>
               <Form.Item
                 name="name"
-                label="Name"
+                label= {tProduct("Name")}
                 rules={[
                   {
                     required: true,
-                    message: "Input Name",
+                    message: tProduct("Input Name"),
                   },
                 ]}
               >
-                <Input placeholder="Enter name" />
+                <Input placeholder= {tProduct("Enter name")} />
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item
                 name="price"
-                label="Price"
-                rules={[{ required: true, message: "Input price" }]}
+                label= {tProduct("Price")}
+                rules={[{ required: true, message: tProduct("Input price") }]}
               >
-                <Input placeholder="Enter price" />
+                <Input placeholder= {tProduct("Enter price")} />
               </Form.Item>
             </Col>
           </Row>
@@ -346,20 +349,20 @@ export const ListProduct = () => {
             <Col span={12}>
               <Form.Item
                 name="quantity"
-                label="Quantity"
-                rules={[{ required: true, message: "Input quantity" }]}
+                label= {tProduct("Quantity")}
+                rules={[{ required: true, message: tProduct("Input quantity") }]}
               >
-                <Input placeholder="Enter quantity" />
+                <Input placeholder= {tProduct("Enter quantity")} />
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item
                 name="categoryName"
-                label="Category"
-                rules={[{ required: true, message: "Select category" }]}
+                label= {tProduct("Category")}
+                rules={[{ required: true, message: tProduct("Select category") }]}
               >
                 <Select
-                  placeholder="Select category"
+                  placeholder= {tProduct("Select category")}
                   options={dataCategory?.categories
                     ?.filter((item: any) => item.id !== "")
                     ?.map((item: any) => {
@@ -376,11 +379,11 @@ export const ListProduct = () => {
           <Row>
             <Col span={24}>
               <Form.Item
-                label="Image"
+                label= {tProduct("Image")}
                 name="images"
                 getValueFromEvent={(event: any) => event?.fileList}
                 rules={[
-                  { required: true, message: "Please input your images!" },
+                  { required: true, message: tProduct("Please input your images!") },
                 ]}
                 valuePropName={"fileList"}
               >
@@ -398,12 +401,12 @@ export const ListProduct = () => {
           <Row style={{ height: "350px" }}>
             <Col span={24}>
               <Form.Item
-                name="description"
-                label="Description"
+                name= "description"
+                label= {tProduct("Description")}
                 rules={[
                   {
                     required: true,
-                    message: "Input description",
+                    message: tProduct("Input description"),
                   },
                 ]}
               >
@@ -411,7 +414,7 @@ export const ListProduct = () => {
                   theme="snow"
                   value={description}
                   onChange={setDescription}
-                  placeholder="Enter description"
+                  placeholder= {tProduct("Enter description")}
                   style={{ height: "250px" }}
                   modules={modules}
                 />

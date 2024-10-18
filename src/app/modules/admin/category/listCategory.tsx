@@ -7,9 +7,12 @@ import {
 } from "./category.loader";
 import { ListCategoryTable } from "./components/listCategoryTable";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const ListCategory = () => {
   const [form] = Form.useForm();
+  const { t: tCategory } = useTranslation("translation", { keyPrefix: "category" });
+
   const [pageReportCategoryHistory, setPageReportCategoryHistory] = useState(1);
   const [pageLimitCategory, setPageLimitCategory] = useState(10);
   const [categorySelected, setCategorySelected] = useState({} as any);
@@ -86,13 +89,13 @@ const ListCategory = () => {
         <Col span={24} xxl={24} xl={24}>
           <Row justify={"space-between"}>
             <Col>
-              <span className="titleMainDashboard">CATEGORIES</span>{" "}
+              <span className="titleMainDashboard">{tCategory("CATEGORIES")}</span>{" "}
             </Col>
             <Col>
               <Row gutter={[10, 0]}>
                 <Col>
                   <Button type="primary" onClick={showModalAddCategory}>
-                    ADD CATEGORY
+                    {tCategory("ADD CATEGORY")}
                   </Button>
                 </Col>
               </Row>
@@ -150,7 +153,7 @@ const ListCategory = () => {
       </Modal>
       {/* Modal delete */}
       <Modal
-        title="DeleteCustomer"
+        title={tCategory("DeleteCustomer")}
         open={isModalDeleteCategory}
         onOk={handleDeleteCategory}
         onCancel={handleCancelModal}
@@ -158,7 +161,7 @@ const ListCategory = () => {
         <Alert
           message={
             <p>
-              Are you sure you want to delete the category "
+              {tCategory("Are you sure you want to delete the category")} "
               <b>{categorySelected?.name}"</b> ?
             </p>
           }
@@ -169,7 +172,7 @@ const ListCategory = () => {
       {/* Modal edit & add */}
       <Modal
         visible={isModalAddAndEditCategory}
-        title={isActionAdd ? "Add category" : "Edit category"}
+        title={isActionAdd ? tCategory("Add category") : tCategory("Edit category")}
         onCancel={handleCancelModalAddAndEditCategory}
         onOk={isActionAdd ? handleOkAddCategory : handleOkEditCategory}
       >
@@ -177,15 +180,15 @@ const ListCategory = () => {
           <Col>
             <Form.Item
               name="name"
-              label="Category name"
+              label={tCategory("Category name")}
               rules={[
                 {
                   required: true,
-                  message: "Please enter category name",
+                  message: tCategory("Please enter category name")
                 },
               ]}
             >
-              <Input placeholder="Enter category name" onChange={handleChFormatUpperCase} />
+              <Input placeholder={tCategory("Enter category name")} onChange={handleChFormatUpperCase} />
             </Form.Item>
           </Col>
         </Form>
