@@ -1,7 +1,10 @@
-import { Col, Image, Pagination, Row, Spin } from "antd";
+import { Button, Col, Image, Modal, Pagination, Row, Spin, Typography } from "antd";
 import Table, { ColumnsType } from "antd/es/table";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 import "../product.css";
+import { useState } from "react";
+import { useGetProductById } from "../product.loader";
+import ReactQuill from "react-quill";
 interface listProductProps {
   data: any;
   isLoading: any;
@@ -39,14 +42,12 @@ export const ListProductTable: React.FC<listProductProps> = ({
 }) => {
   const convertUrlsToFileList = (urls: string[]) => {
     return urls.map((url, index) => ({
-      uid: `old-${index}`, 
+      uid: `old-${index}`,
       name: `image-${index}`,
       status: "done",
       url: url,
     }));
   };
-console.log(data);
-
   const columnProduct: ColumnsType<ReportProductHistory> = [
     {
       title: "Product code",
@@ -80,7 +81,10 @@ console.log(data);
       align: "center",
       dataIndex: "price",
       render: (value: number) => {
-        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
+        return new Intl.NumberFormat("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }).format(value);
       },
     },
     {
@@ -100,6 +104,13 @@ console.log(data);
       render: (_, data: any) => {
         return (
           <>
+            <Button
+              type="link"
+              icon={<EyeOutlined />}
+              onClick={() => handleViewDetails(data)}
+            >
+              See details
+            </Button>
             <EditOutlined
               className="edit-button"
               onClick={() => handleEdit(data)}
@@ -110,6 +121,10 @@ console.log(data);
             />
           </>
         );
+        function handleViewDetails(data:any){
+          setIsProductSelected(data?.id);
+          setIsModalSeeDetail(true);
+        }
         function handleDeteteProduct(data: any) {
           setSelectProduct(data);
           setIsModalDeleteProduct(true);
@@ -136,6 +151,89 @@ console.log(data);
     setPageLimitProduct(pageSize);
     setPageReportProductHistory(page);
   }
+  const [isProductSelected, setIsProductSelected] = useState("");
+  const {data: dataProduct} = useGetProductById({id: isProductSelected})
+  const [isModalSeeDetail, setIsModalSeeDetail] = useState(false);
+  console.log(dataProduct);
+  const handleCancelModalSeeDetail = () => {
+    setIsModalSeeDetail(false);
+  };
+  const handleOkModalSeeDetail = () => {
+    setIsModalSeeDetail(false);
+  };
+  const { Title } = Typography
+  const columListProduct = [
+    {
+      title: 'Product code',
+      key: '1',
+      align: 'center' as 'center',
+      render: (_: any, record: any) => <div>{record?.productCode}</div>
+    },
+    {
+      title: 'Product name',
+      key: '2',
+      align: 'center' as 'center',
+      render: (_: any, record: any) => <div>{record?.name}</div>
+    },
+    {
+      title: 'Product image',
+      key: '3',
+      align: 'center' as 'center',
+      render: (_: any, record: any) => (
+        <Image.PreviewGroup
+        items={record?.images}
+      >
+        <Image
+          width={200}
+          src={record?.images[0]} // Hiển thị ảnh số 0
+        />
+      </Image.PreviewGroup>
+      ),
+    },
+    {
+      title: 'Product price',
+      key: '4',
+      align: 'center' as 'center',
+      render: (_: any, record: any) => (
+        <strong className='block text-center'>
+          {record?.price?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
+        </strong>
+      )
+    },
+    {
+      title: 'Quantity',
+      key: '5',
+      align: 'center' as 'center',
+      render: (_: any, record: any) => <div>{record?.quantity}</div>
+    },
+    {
+      title: 'Description',
+      key: '6',
+      align: 'center' as 'center',
+      render: (_: any, record: any) => (
+        <div
+          style={{
+            maxHeight: '500px',
+            overflowY: 'auto',
+            padding: '10px',
+            border: '1px solid #ddd',
+          }}
+        >
+          <ReactQuill
+            value={record?.description || ''}
+            readOnly={true} 
+            theme="bubble"
+          />
+        </div>
+      ),
+    },
+    {
+      title: 'Category name',
+      key: '7',
+      align: 'center' as 'center',
+      render: (_: any, record: any) => <div>{record?.categoryName}</div>
+    }
+  ];
   return (
     <>
       <Col span={24}>
@@ -161,6 +259,21 @@ console.log(data);
           </>
         )}
       </Col>
+      <Modal
+        open={isModalSeeDetail}
+        onCancel={handleCancelModalSeeDetail}
+        onOk={handleOkModalSeeDetail}
+        width={1400}
+      >
+        <Title level={4}>Product detail</Title>
+        <div>
+          <Table
+            columns={columListProduct}
+            dataSource={[dataProduct]}
+            pagination={false}
+          />
+        </div>
+      </Modal>
     </>
   );
 };

@@ -4,6 +4,7 @@ import {
   deleteProductAdmin,
   editProductAdmin,
   getAllProductAdmin,
+  getProductAdminById,
 } from "../../../services/product-admin.service";
 import { message } from "antd";
 
@@ -16,6 +17,14 @@ export const useGetAllProduct = (data: any) => {
     const result = await getAllProductAdmin(data);
     return result;
   });
+};
+
+export const useGetProductById = (data: { id: string }) => {
+  return useQuery(
+    [CACHE_KEYS.InforDataProduct, data.id],
+    () => getProductAdminById(data),
+    { enabled: !!data.id }
+  );
 };
 
 export const useAddProduct = () => {
@@ -36,7 +45,6 @@ export const useAddProduct = () => {
   );
 };
 
-
 export const useDeleteProduct = () => {
   const queryClient = useQueryClient();
   return useMutation(
@@ -56,16 +64,19 @@ export const useDeleteProduct = () => {
 };
 
 export const useEditProduct = () => {
-    const queryClient = useQueryClient();
-    return useMutation((data:FormData)=> {
-        return editProductAdmin(data);
-    },{
-        onSuccess:()=> {
-            queryClient.invalidateQueries(CACHE_KEYS.InforDataProduct);
-            message.success("Product edited success"); 
-        },
-        onError:() => {
-            message.error("Product exiteds");
-        }
-    })
-}
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: FormData) => {
+      return editProductAdmin(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(CACHE_KEYS.InforDataProduct);
+        message.success("Product edited success");
+      },
+      onError: () => {
+        message.error("Product exiteds");
+      },
+    }
+  );
+};

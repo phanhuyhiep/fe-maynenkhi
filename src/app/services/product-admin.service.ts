@@ -6,6 +6,12 @@ export const getAllProductAdmin = async (data: any) => {
   return result.data;
 };
 
+export const getProductAdminById = async(data:any) => {
+  const url = `/product/${data.id}`;
+  const result = await confisAxios.get(url);
+  return result.data;
+}
+
 export const addProductAdmin = async (data: any) => {
   const url = `/product/add`;
   const result = await confisAxios.post(url, data);
